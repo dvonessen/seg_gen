@@ -10,8 +10,8 @@ logger = logging.getLogger(__name__)
 
 
 class Hls():
-    """Class that provides methods to get information to performance testing HLS/m3u8
-    VOD streams
+    """Class that provides methods to get information
+    to performance testing HLS/m3u8 VOD streams
 
     from seg_gen import hls
     base_url = 'http://www.example.com/path_to_video.ism/'
