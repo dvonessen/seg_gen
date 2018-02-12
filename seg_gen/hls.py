@@ -3,7 +3,7 @@ import logging
 import sys
 
 logging.basicConfig(
-    level=log_level,
+    level=logging.ERROR,
     format='%(levelname)s: %(asctime)s - %(funcName)s at %(lineno)d %(message)s'
 )
 logger = logging.getLogger(__name__)
@@ -51,7 +51,7 @@ class Hls():
             m3u8_obj = m3u8.load(master_url)
             if m3u8_obj.is_variant:
                 for playlist in m3u8_obj.playlists:
-                    if 'video' in playlist.uri and playlist.stream_info.resolution != None:
+                    if 'video' in playlist.uri and playlist.stream_info.resolution is None:
                         return playlist
         except:
             logger.warning('Could not get video playlist out of m3u8 URL.')

@@ -4,7 +4,7 @@ import logging
 import sys
 
 logging.basicConfig(
-    level=log_level,
+    level=logging.ERROR,
     format='%(levelname)s: %(asctime)s - %(funcName)s at %(lineno)d %(message)s'
 )
 logger = logging.getLogger(__name__)

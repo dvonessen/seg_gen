@@ -3,11 +3,12 @@ import sys
 from . import s3_ism_urls
 from . import dash
 from . import hls
+from . import smooth
 
 __version__ = '0.0.1'
 
 logging.basicConfig(
-    level=log_level,
+    level=logging.ERROR,
     format='%(levelname)s: %(asctime)s - %(funcName)s at %(lineno)d %(message)s'
 )
 
@@ -24,7 +25,7 @@ class SegGen():
         """Initialization method.
 
         Arguments:
-            uso_endpoint_url {strin} -- URL of USO
+            uso_endpoint_url {string} -- URL of USO
             bucket_name {string} -- Name of AWS S3 bucket to search for .ism files
             **kwargs {dict} -- Keyword Arguments that is supported
         """
@@ -57,8 +58,11 @@ class SegGen():
             list -- List of ism keys.
         """
 
-
-        s3_ism_obj = s3_ism_urls.IsmUrls(aws_profile=self.aws_profile, aws_access_key_id=self.access_key_id, aws_secret_access_key=self.secret_access_key)
+        s3_ism_obj = s3_ism_urls.IsmUrls(
+            aws_profile=self.aws_profile,
+            aws_access_key_id=self.access_key_id,
+            aws_secret_access_key=self.secret_access_key
+            )
 
         i = self.count
         ism_keys = list()
