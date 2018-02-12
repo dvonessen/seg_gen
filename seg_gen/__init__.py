@@ -21,7 +21,7 @@ class SegGen():
     At this time this module provides an interface for HLS, Dash and Smooth.
     """
 
-    def __init__(self, uso_endpoint_url, bucket_name, prefix='', **kwargs):
+    def __init__(self, uso_endpoint_url='', bucket_name=None, prefix='', **kwargs):
         """Initialization method.
 
         Arguments:
@@ -96,7 +96,7 @@ class SegGen():
             # Getting DASH/.mpd URLs
             dash_url = dash_client.get_callable_url(base_url)
             dash_mpd = dash_client.get_mpd_xml(dash_url)
-            dash_segments.append(dash_client.get_mpd_segment_urls(base_url, dash_mpd))
+            dash_segments.extend(dash_client.get_mpd_segment_urls(base_url, dash_mpd))
 
         return dash_segments
 
@@ -117,7 +117,7 @@ class SegGen():
             # Getting HLS/.m3u8 URLs
             hls_master_url = hls_client.get_master_url(base_url)
             hls_video_playlist = hls_client.get_video_playlist(hls_master_url)
-            hls_segments.append(hls_client.get_segments(hls_video_playlist))
+            hls_segments.extend(hls_client.get_segments(hls_video_playlist))
 
         return hls_segments
 
@@ -137,7 +137,7 @@ class SegGen():
             # Getting Smooth/manifest URLs
             smooth_master_url = smooth_client.get_smooth_url(base_url)
             smooth_xml = smooth_client.get_smooth_xml(smooth_master_url)
-            smooth_segments.append(smooth_client.get_smooth_segment_urls(base_url, smooth_xml))
+            smooth_segments.extend(smooth_client.get_smooth_segment_urls(base_url, smooth_xml))
 
         return smooth_segments
 
@@ -156,12 +156,12 @@ class SegGen():
 
         if 'hls' in kwargs:
             hls_segments = self._get_hls_segments(base_urls)
-            all_segments.extend([seg for segs in hls_segments for seg in segs])
+            all_segments.extend(hls_segments)
         if 'dash' in kwargs:
             dash_segments = self._get_dash_segments(base_urls)
-            all_segments.extend([seg for segs in dash_segments for seg in segs])
+            all_segments.extend(dash_segments)
         if 'smooth' in kwargs:
             smooth_segments = self._get_smooth_segments(base_urls)
-            all_segments.extend([seg for segs in smooth_segments for seg in segs])
+            all_segments.extend(smooth_segments)
 
         return all_segments
